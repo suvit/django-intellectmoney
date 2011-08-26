@@ -26,7 +26,7 @@ class _BasePaymentForm(_BaseForm):
         initial=settings.INTELLECTMONEY_DEBUG and 'TST' or 'RUR'
     )
     userName = forms.CharField(max_length=255, required=False)
-    email = forms.EmailField(required=False)
+    userEmail = forms.EmailField(required=False)
 
 
 class IntellectMoneyForm(_BasePaymentForm):

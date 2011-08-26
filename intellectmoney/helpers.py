@@ -13,18 +13,18 @@ def cheskHashOnReceiveResult(data):
 def getHashOnReceiveResult(data):
     secretKey = getSecretKey()
     serviceName = data.get('serviceName', '')
-    eshopId = data.get('eshopId')
-    orderId = data.get('orderId')
+    eshopId = data.get('eshopId', '')
+    orderId = data.get('orderId', '')
     eshopAccount = data.get('eshopAccount')
-    recipientAmount = data.get('recipientAmount')
-    recipientCurrency = data.get('recipientCurrency')
-    paymentStatus = data.get('paymentStatus')
-    userName = data.get('userName')
-    email = data.get('email')
+    recipientAmount = data.get('recipientAmount', '')
+    recipientCurrency = data.get('recipientCurrency', '')
+    paymentStatus = data.get('paymentStatus', '')
+    userName = data.get('userName', '')
+    userEmail = data.get('userEmail', '')
     paymentData = data.get('paymentData')
     key = '%s::%s::%s::%s::%s::%s::%s::%s::%s::%s::%s' % (
          eshopId, orderId, serviceName, eshopAccount, recipientAmount,
-         recipientCurrency, paymentStatus, userName, email, paymentData,
+         recipientCurrency, paymentStatus, userName, userEmail, paymentData,
          secretKey,
     )
     key = key.encode('windows-1251')
