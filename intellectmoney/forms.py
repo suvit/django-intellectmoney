@@ -2,7 +2,6 @@
 from .helpers import cheskHashOnReceiveResult
 from django import forms
 from django.conf import settings
-from django.core.urlresolvers import reverse
 
 
 class _BaseForm(forms.Form):

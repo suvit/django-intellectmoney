@@ -11,7 +11,7 @@ def cheskHashOnReceiveResult(data):
 
 
 def getHashOnReceiveResult(data):
-    secretKey = settings.INTELLECTMONEY_SECRETKEY
+    secretKey = getSecretKey()
     serviceName = data.get('serviceName', '')
     eshopId = data.get('eshopId')
     orderId = data.get('orderId')
@@ -33,7 +33,7 @@ def getHashOnReceiveResult(data):
 
 
 def getHashOnRequest(data):
-    secretKey = settings.INTELLECTMONEY_SECRETKEY
+    secretKey = getSecretKey()
     serviceName = data.get('serviceName', '')
     eshopId = data.get('eshopId')
     orderId = data.get('orderId')
@@ -45,3 +45,8 @@ def getHashOnRequest(data):
     key = key.encode('windows-1251')
     hash = hashlib.md5(key).hexdigest()
     return hash
+
+def getSecretKey():
+    if settings.INTELLECTMONEY_SEND_SECRETKEY:
+        return settings.INTELLECTMONEY_SECRETKEY
+    return ''
