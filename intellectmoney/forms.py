@@ -50,7 +50,7 @@ class IntellectMoneyForm(_BasePaymentForm):
         initial=settings.INTELLECTMONEY_FAIL_URL
     )
     preference = forms.ChoiceField(
-        label=u'Payment Method', choices=PREFERENCE_CHOICES
+        label=u'Payment Method', choices=PREFERENCE_CHOICES, required=False
     )
     expireDate = forms.DateTimeField(required=False)
     hash = forms.CharField(required=False)
