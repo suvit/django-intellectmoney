@@ -28,7 +28,7 @@ def receive_result(request):
         orderId = data['orderId']
         recipientAmount = data['recipientAmount']
         paymentId = data['paymentId']
-        invoice = get_object_or_None(IntellectMoney, invoice=orderId)
+        invoice = get_object_or_None(IntellectMoney, orderId=orderId)
         if not invoice:
             subject = u'%sОповещение об оплате несуществующего счета #%s' % (
                 preffix, paymentId
