@@ -9,6 +9,7 @@ def cheskHashOnReceiveResult(data):
         return True
     return False
 
+
 def getHashOnReceiveResult(data):
     secretKey = settings.INTELLECTMONEY_SECRETKEY
     serviceName = data.get('serviceName', '')
@@ -25,6 +26,21 @@ def getHashOnReceiveResult(data):
          eshopId, orderId, serviceName, eshopAccount, recipientAmount,
          recipientCurrency, paymentStatus, userName, email, paymentData,
          secretKey,
+    )
+    key = key.encode('windows-1251')
+    hash = hashlib.md5(key).hexdigest()
+    return hash
+
+
+def getHashOnRequest(data):
+    secretKey = settings.INTELLECTMONEY_SECRETKEY
+    serviceName = data.get('serviceName', '')
+    eshopId = data.get('eshopId')
+    orderId = data.get('orderId')
+    purchaseAmount = data.get('recipientAmount')
+    currency = data.get('recipientCurrency')
+    key = '%s::%s::%s::%s::%s::%s' % (
+         eshopId, orderId, serviceName, purchaseAmount, currency, secretKey,
     )
     key = key.encode('windows-1251')
     hash = hashlib.md5(key).hexdigest()

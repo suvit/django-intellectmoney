@@ -2,6 +2,7 @@
 from .helpers import cheskHashOnReceiveResult
 from django import forms
 from django.conf import settings
+from django.core.urlresolvers import reverse
 
 
 class _BaseForm(forms.Form):
@@ -52,6 +53,7 @@ class IntellectMoneyForm(_BasePaymentForm):
         label=u'Payment Method', choices=PREFERENCE_CHOICES
     )
     expireDate = forms.DateTimeField(required=False)
+    hash = forms.CharField(required=False)
 
 
 class ResultUrlForm(_BasePaymentForm):
