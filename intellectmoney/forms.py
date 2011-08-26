@@ -37,10 +37,11 @@ class IntellectMoneyForm(_BasePaymentForm):
         ('bankCard', 'Visa/MasterCard'),
         ('exchangers', u'Internet Exchangers'),
         ('terminals', u'Terminals'),
-        ('transfers', u'Terminals'),
+        ('transfers', u'Transfers'),
         ('sms', 'SMS'),
         ('bank', u'Bank'),
         ('inner,bankCard,exchangers,terminals,bank,transfers,sms', u'All'),
+        ('bankCard,exchangers,terminals,bank,transfers,sms', u'All without inner'),
     ]
 
     successUrl = forms.CharField(
