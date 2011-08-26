@@ -45,6 +45,8 @@ def receive_result(request):
             result_received.send(
                 sender=invoice, orderId=orderId, recipientAmount=recipientAmount,
             )
+        elif paymentStatus == 3:
+            return HttpResponse('OK')
         else:
             subject = u'%sПришло оповещение с неожидаемым статусом' % preffix
             mail_admins(subject, message=u'Дата: %s' % info)
