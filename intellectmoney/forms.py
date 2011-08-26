@@ -19,7 +19,7 @@ class _BaseForm(forms.Form):
 
 class _BasePaymentForm(_BaseForm):
 
-    CURRENCY_CHOICES = map(lambda x: (x, x), ['RUR', 'TST'])
+    CURRENCY_CHOICES = map(lambda x: (x, x), ['RUR', 'TST', 'RUB'])
     serviceName = forms.CharField(label=u'Payment Description', required=False)
     recipientAmount = forms.DecimalField(max_digits=10, decimal_places=2)
     recipientCurrency = forms.ChoiceField(
