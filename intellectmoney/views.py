@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from intellectmoney.models import IntellectMoney
 from intellectmoney.signals import result_received
+from django.template.context import RequestContext
 
 
 @csrf_exempt
@@ -58,9 +59,13 @@ def receive_result(request):
 
 @csrf_exempt
 def success(request):
-    return render_to_response('intellectmoney/success.html')
+    return render_to_response('intellectmoney/success.html',
+        context_instance=RequestContext(request)
+    )
 
 
 @csrf_exempt
 def fail(request):
-    return render_to_response('intellectmoney/fail.html')
+    return render_to_response('intellectmoney/fail.html',
+        context_instance=RequestContext(request)
+    )
