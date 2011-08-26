@@ -44,7 +44,6 @@ def receive_result(request):
             mail_admins(subject, message=message)
             result_received.send(
                 sender=invoice, orderId=orderId, recipientAmount=recipientAmount,
-                extra=form.extra_params()
             )
         else:
             subject = u'%sПришло оповещение с неожидаемым статусом' % preffix
