@@ -17,7 +17,7 @@ from django.template.context import RequestContext
 def receive_result(request):
     ip = request.META['REMOTE_ADDR']
     preffix = 'IntellectMoney: '
-    info = request.POST.__dict__
+    info = request.POST
     if ip != settings.INTELLECTMONEY_IP:
         subject = u'%sОповещение о платеже с неправильного ip'  % preffix
         mail_admins(subject, message=u'Дата: %s' % info)
