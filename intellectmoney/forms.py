@@ -56,6 +56,7 @@ class IntellectMoneyForm(_BasePaymentForm):
         label=u'Payment Method', choices=PREFERENCE_CHOICES, required=False
     )
     expireDate = forms.DateTimeField(required=False)
+    holdMode = forms.BooleanField(required=False)
     hash = forms.CharField(required=False)
 
 
