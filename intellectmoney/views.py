@@ -36,11 +36,16 @@ def receive_result(request):
             mail_admins(subject, message=u'Дата: %s' % info)
             return HttpResponse('OK')
         paymentStatus = data['paymentStatus']
-        if paymentStatus in [5, 7]:
+        if paymentStatus in [5, 6, 7]:
             subject = u'Оплата через intellectmoney #%s' % paymentId
-            message = u'%sОплачен счет %s (%s руб)' % (
-                preffix, orderId, recipientAmount
-            )
+            if paymentStatus == 6:
+                message = u'%sОплачен счет %s (ЗАБЛОКИРОВАНО %s руб)' % (
+                   preffix, orderId, recipientAmount,
+                )
+            else:
+                message = u'%sОплачен счет %s (%s руб)' % (
+                   preffix, orderId, recipientAmount,
+                )
             mail_admins(subject, message=message)
             result_received.send(
                 sender=invoice, orderId=orderId, recipientAmount=recipientAmount,
