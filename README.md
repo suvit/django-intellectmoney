@@ -1,5 +1,5 @@
 Settings ( TODO )
------------------
+==================
 
 ```INTELLECTMONEY_IP```
 ```INTELLECTMONEY_URL```
