@@ -15,7 +15,7 @@ setup(
     url='http://satels.blogspot.com/',
     download_url='https://github.com/satels/django-intellectmoney/zipball/master',
     license='MIT license',
-    description=u'Приложение для работы с inellectmoney.ru.',
+    description=u'Приложение для работы с intellectmoney.ru.',
     long_description=file(
         os.path.join(
             os.path.dirname(__file__),
