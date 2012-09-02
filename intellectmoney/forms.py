@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
-from .helpers import cheskHashOnReceiveResult
 from django import forms
-from django.conf import settings
+
+from intellectmoney import settings
+from intellectmoney.helpers import checkHashOnReceiveResult
 
 
 class _BaseForm(forms.Form):
 
-    eshopId = forms.CharField(initial=settings.INTELLECTMONEY_SHOPID)
+    eshopId = forms.CharField(initial=settings.SHOPID)
     orderId = forms.CharField(max_length=50)
 
     def clean_eshopId(self):
         eshopId = self.cleaned_data['eshopId']
-        if eshopId != settings.INTELLECTMONEY_SHOPID:
+        if eshopId != settings.SHOPID:
             raise forms.ValidationError(u'Неверный eshopId')
         return eshopId
 
@@ -23,7 +24,7 @@ class _BasePaymentForm(_BaseForm):
     recipientAmount = forms.DecimalField(max_digits=10, decimal_places=2)
     recipientCurrency = forms.ChoiceField(
         choices=CURRENCY_CHOICES,
-        initial=settings.INTELLECTMONEY_DEBUG and 'TST' or 'RUR'
+        initial=settings.DEBUG and 'TST' or 'RUB'
     )
     userName = forms.CharField(max_length=255, required=False)
     userEmail = forms.EmailField(required=False)
@@ -46,11 +47,11 @@ class IntellectMoneyForm(_BasePaymentForm):
 
     successUrl = forms.CharField(
         required=False, max_length=512,
-        initial=settings.INTELLECTMONEY_SUCCESS_URL
+        initial=settings.SUCCESS_URL
     )
     failUrl = forms.CharField(
         required=False, max_length=512,
-        initial=settings.INTELLECTMONEY_FAIL_URL
+        initial=settings.FAIL_URL
     )
     preference = forms.ChoiceField(
         label=u'Payment Method', choices=PREFERENCE_CHOICES, required=False
@@ -79,7 +80,7 @@ class ResultUrlForm(_BasePaymentForm):
 
     def __init__(self, *args, **kwargs):
         super(ResultUrlForm, self).__init__(*args, **kwargs)
-        if settings.INTELLECTMONEY_SEND_SECRETKEY:
+        if settings.SEND_SECRETKEY:
             self.fields['hash'].required = False
             self.fields['secretKey'].required = True
         else:
@@ -88,15 +89,15 @@ class ResultUrlForm(_BasePaymentForm):
 
     def clean_secretKey(self):
         secretKey = self.cleaned_data['secretKey']
-        if settings.INTELLECTMONEY_SEND_SECRETKEY:
-            if secretKey != settings.INTELLECTMONEY_SECRETKEY:
+        if settings.SEND_SECRETKEY:
+            if secretKey != settings.SEND_SECRETKEY:
                 raise forms.ValidationError(u'Неверное значение')
         return secretKey
 
     def clean(self):
         data = self.cleaned_data
-        if not settings.INTELLECTMONEY_SEND_SECRETKEY:
-            if not cheskHashOnReceiveResult(data):
+        if not settings.SEND_SECRETKEY:
+            if not checkHashOnReceiveResult(data):
                 raise forms.ValidationError(u'Неверный hash')
         return data
 

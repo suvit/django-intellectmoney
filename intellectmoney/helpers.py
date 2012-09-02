@@ -1,17 +1,16 @@
-#coding:utf-8
-from django.conf import settings
+# -*- coding: utf-8 -*-
 import hashlib
 
+from intellectmoney import settings
 
-def cheskHashOnReceiveResult(data):
+
+def checkHashOnReceiveResult(data):
     hash = getHashOnReceiveResult(data)
-    if hash == data.get('hash'):
-        return True
-    return False
+    return  hash == data.get('hash')
 
 
 def getHashOnReceiveResult(data):
-    secretKey = settings.INTELLECTMONEY_SECRETKEY
+    secretKey = settings.SECRETKEY
     serviceName = data.get('serviceName', '')
     eshopId = data.get('eshopId', '')
     orderId = data.get('orderId', '')
@@ -33,7 +32,7 @@ def getHashOnReceiveResult(data):
 
 
 def getHashOnRequest(data):
-    secretKey = settings.INTELLECTMONEY_SECRETKEY
+    secretKey = settings.SECRETKEY
     serviceName = data.get('serviceName', '')
     eshopId = data.get('eshopId')
     orderId = data.get('orderId')

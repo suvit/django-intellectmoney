@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
-from .forms import ResultUrlForm
-from annoying.functions import get_object_or_None
-from django.conf import settings
 from django.core.mail import mail_admins
 from django.http import HttpResponse, Http404
 from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django.template.context import RequestContext
+
+from annoying.functions import get_object_or_None
+
+from intellectmoney import settings
+from intellectmoney.forms import ResultUrlForm
 from intellectmoney.models import IntellectMoney
 from intellectmoney.signals import result_received
-from django.template.context import RequestContext
 
 
 @csrf_exempt
@@ -18,7 +20,7 @@ def receive_result(request):
     ip = request.META['REMOTE_ADDR']
     preffix = 'IntellectMoney: '
     info = request.POST
-    if ip != settings.INTELLECTMONEY_IP:
+    if ip != settings.IP:
         subject = u'%sОповещение о платеже с неправильного ip'  % preffix
         mail_admins(subject, message=u'Дата: %s' % info)
         raise Http404

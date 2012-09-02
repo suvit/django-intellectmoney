@@ -1,8 +1,9 @@
 # -*- coding:utf-8 -*-
 from django import test
-from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.test import Client
+
+from intellectmoney import settings
 from intellectmoney.forms import IntellectMoneyForm, ResultUrlForm
 from intellectmoney.helpers import getHashOnReceiveResult
 # Not avaliable in Django 1.3 yet
@@ -13,13 +14,13 @@ class IntellectMoneyTest(test.TestCase):
 
     def setUp(self):
         self.url = reverse('intellectmoney-result')
-        self.client = Client(REMOTE_ADDR=settings.INTELLECTMONEY_IP)
+        self.client = Client(REMOTE_ADDR=settings.IP)
         self.data = {
             'serviceName': u'Тестовая оплата',
             'recipientAmount': '12222.32', 'recipientCurrency': 'RUR',
             'userName': '3434', 'email': 'test@example.com',
-            'eshopId': settings.INTELLECTMONEY_SHOPID, 'paymentId': '323',
-            'secretKey': settings.INTELLECTMONEY_SECRETKEY, 'orderId': '434000',
+            'eshopId': settings.SHOPID, 'paymentId': '323',
+            'secretKey': settings.SECRETKEY, 'orderId': '434000',
             'paymentStatus': 7, 'eshopAccount': '2212',
             'paymentData': '2011-01-01 01:01:01',
         }
@@ -33,7 +34,7 @@ class IntellectMoneyTest(test.TestCase):
             'recipientAmount': '10000000.06', 'recipientCurrency': 'RUR',
             'userName': 'Test User Name', 'email': 'roman@netangels.ru',
             'orderId': 15, 'successUrl': '/dsdsd/', 'failUrl': '/dsdsda/',
-            'eshopId': settings.INTELLECTMONEY_SHOPID
+            'eshopId': settings.SHOPID
         }
         form = IntellectMoneyForm(data)
         form.is_valid()
@@ -47,9 +48,9 @@ class IntellectMoneyTest(test.TestCase):
 
     # @override_settings(INTELLECTMONEY_SEND_SECRETKEY=False)
     def testResultBadShopId(self):
-        settings.INTELLECTMONEY_SEND_SECRETKEY = False
+        settings.SEND_SECRETKEY = False
         data = self.data
-        data['eshopId'] = '%s1' % settings.INTELLECTMONEY_SHOPID
+        data['eshopId'] = '%s1' % settings.SHOPID
         data['hash'] = 1
         client = self.client
         response = client.post(self.url, data)
@@ -62,7 +63,7 @@ class IntellectMoneyTest(test.TestCase):
 
     # @override_settings(INTELLECTMONEY_SEND_SECRETKEY=False)
     def testResultBadHash(self):
-        settings.INTELLECTMONEY_SEND_SECRETKEY = False
+        settings.SEND_SECRETKEY = False
         data = self.data
         hash = getHashOnReceiveResult(data)
         data['hash'] = hash + '343'
@@ -78,7 +79,7 @@ class IntellectMoneyTest(test.TestCase):
 
     # @override_settings(INTELLECTMONEY_SEND_SECRETKEY=True)
     def testResultBadSecretKey(self):
-        settings.INTELLECTMONEY_SEND_SECRETKEY = True
+        settings.SEND_SECRETKEY = True
         data = self.data
         data['secretKey'] = data['secretKey'] + '343'
         client = self.client
