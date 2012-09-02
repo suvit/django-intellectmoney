@@ -16,7 +16,7 @@ SECRETKEY = getattr(settings, 'INTELLECTMONEY_SECRETKEY', None)
 
 DEBUG = getattr(settings, 'INTELLECTMONEY_DEBUG', True)
 UNIQUE_ID = getattr(settings, 'INTELLECTMONEY_UNIQUE_ID', False)
-REQUIRE_HASH = getattr(settings, 'REQUIRE_HASH', False)
+REQUIRE_HASH = getattr(settings, 'INTELLECTMONEY_REQUIRE_HASH', False)
 SEND_SECRETKEY = getattr(settings, 'INTELLECTMONEY_SEND_SECRETKEY', False)
 HOLD_MODE = getattr(settings, 'INTELLECTMONEY_HOLD_MODE', False)
 EXPIRE_DATE_OFFSET = getattr(settings, 'INTELLECTMONEY_EXPIRE_DATE_OFFSET',
