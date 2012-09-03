@@ -91,6 +91,10 @@ class IntellectMoneyForm(_BasePaymentForm):
             exp_date = datetime.datetime.now() + settings.EXPIRE_DATE_OFFSET
             initial['expireDate'] = exp_date
 
+        if settings.DEBUG:
+            # in debug mode only support 'inner' method
+            initial['preference'] = 'inner'
+
         super(IntellectMoneyForm, self).__init__(*args, **kwargs)
 
 
