@@ -6,7 +6,7 @@ from intellectmoney import settings
 
 def checkHashOnReceiveResult(data):
     hash = getHashOnReceiveResult(data)
-    return  hash == data.get('hash')
+    return hash == data.get('hash')
 
 
 def getHashOnReceiveResult(data):

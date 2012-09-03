@@ -32,7 +32,7 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Natural Language :: Russian',
     ),
-    install_requires=['django',
+    install_requires=[#'django',
                       'django-annoying',
                      ],
     include_package_data=True,
