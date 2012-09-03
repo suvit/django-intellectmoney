@@ -93,7 +93,7 @@ class IntellectMoneyForm(_BasePaymentForm):
 
         if settings.DEBUG:
             # in debug mode only support 'inner' method
-            initial['preference'] = 'inner'
+            initial['preference'] = self.PREFERENCE_CHOICES[0][0]
 
         super(IntellectMoneyForm, self).__init__(*args, **kwargs)
 
