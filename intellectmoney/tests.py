@@ -5,7 +5,9 @@ from django.test import Client
 
 from intellectmoney import settings
 from intellectmoney.forms import IntellectMoneyForm, ResultUrlForm
-from intellectmoney.helpers import getHashOnReceiveResult, getHashOnHold
+from intellectmoney.helpers import (getHashOnReceiveResult,
+                                    getHashOnHold,
+                                    getHashOnRequest)
 from intellectmoney.models import IntellectMoney
 # Not avaliable in Django 1.3 yet
 # from django.test.utils import override_settings
@@ -84,6 +86,23 @@ class IntellectMoneyTest(test.TestCase):
         #self._assertTicketExists()
 
     # @override_settings(INTELLECTMONEY_SEND_SECRETKEY=False)
+
+    def testResultBadRequestHash(self):
+        data = self.data2.copy()
+        data['orderId'] = '1'
+        data['serviceName'] = u'покупка книги Хочу все знать'
+        data['recipientAmount'] = '10,10'
+        data['recipientCurrency'] = 'RUB'
+
+        old_secretkey = settings.SECRETKEY
+        settings.SECRETKEY = 'test'
+        try:
+            hash = getHashOnRequest(data)
+        finally:
+            settings.SECRETKEY = old_secretkey
+
+        self.assertEqual(hash, '4590a539674c6b74d3032e004d1f8192')
+
     def testResultBadHash(self):
         settings.SEND_SECRETKEY = False
         data = self.data

@@ -26,9 +26,7 @@ def getHashOnReceiveResult(data):
          recipientCurrency, paymentStatus, userName, userEmail, paymentData,
          secretKey,
     )
-    print key
     key = key.encode('utf8')
-    #print key
     hash = hashlib.md5(key).hexdigest()
     return hash
 
@@ -43,7 +41,7 @@ def getHashOnRequest(data):
     key = u'%s::%s::%s::%s::%s::%s' % (
          eshopId, orderId, serviceName, purchaseAmount, currency, secretKey,
     )
-    key = key.encode('utf8')
+    key = key.encode('cp1251')
     hash = hashlib.md5(key).hexdigest()
     return hash
 
