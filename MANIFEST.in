@@ -1,1 +1,2 @@
+recursive-include intellectmoney/templates *
 include README.md
