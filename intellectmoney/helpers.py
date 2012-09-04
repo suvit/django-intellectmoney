@@ -11,9 +11,9 @@ def checkHashOnReceiveResult(data):
 
 def getHashOnReceiveResult(data):
     secretKey = settings.SECRETKEY
-    serviceName = data.get('serviceName', '')
     eshopId = data.get('eshopId', '')
     orderId = data.get('orderId', '')
+    serviceName = data.get('serviceName', '')
     eshopAccount = data.get('eshopAccount', '')
     recipientAmount = data.get('recipientAmount', '')
     recipientCurrency = data.get('recipientCurrency', '')
@@ -21,26 +21,41 @@ def getHashOnReceiveResult(data):
     userName = data.get('userName', '')
     userEmail = data.get('userEmail', '')
     paymentData = data.get('paymentData', '')
-    key = '%s::%s::%s::%s::%s::%s::%s::%s::%s::%s::%s' % (
+    key = u'%s::%s::%s::%s::%s::%s::%s::%s::%s::%s::%s' % (
          eshopId, orderId, serviceName, eshopAccount, recipientAmount,
          recipientCurrency, paymentStatus, userName, userEmail, paymentData,
          secretKey,
     )
-    key = key.encode('windows-1251', 'ignore')
+    print key
+    key = key.encode('utf8')
+    #print key
     hash = hashlib.md5(key).hexdigest()
     return hash
 
 
 def getHashOnRequest(data):
     secretKey = settings.SECRETKEY
+    eshopId = data.get('eshopId', '')
+    orderId = data.get('orderId', '')
     serviceName = data.get('serviceName', '')
-    eshopId = data.get('eshopId')
-    orderId = data.get('orderId')
-    purchaseAmount = data.get('recipientAmount')
-    currency = data.get('recipientCurrency')
-    key = '%s::%s::%s::%s::%s::%s' % (
+    purchaseAmount = data.get('recipientAmount', '')
+    currency = data.get('recipientCurrency', '')
+    key = u'%s::%s::%s::%s::%s::%s' % (
          eshopId, orderId, serviceName, purchaseAmount, currency, secretKey,
     )
-    key = key.encode('windows-1251', 'ignore')
+    key = key.encode('utf8')
+    hash = hashlib.md5(key).hexdigest()
+    return hash
+
+
+def getHashOnHold(data):
+    secretKey = settings.SECRETKEY
+    eshopId = data.get('eshopId', '')
+    orderId = data.get('orderId', '')
+    action = data.get('action', '')
+    key = u'%s::%s::%s::%s' % (
+         eshopId, orderId, action, secretKey,
+    )
+    key = key.encode('utf8')
     hash = hashlib.md5(key).hexdigest()
     return hash
