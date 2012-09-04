@@ -14,7 +14,7 @@ class _BaseForm(forms.Form):
 
     def clean_eshopId(self):
         eshopId = self.cleaned_data['eshopId']
-        if eshopId != settings.SHOPID:
+        if eshopId != str(settings.SHOPID):
             raise forms.ValidationError(u'Неверный eshopId')
         return eshopId
 
