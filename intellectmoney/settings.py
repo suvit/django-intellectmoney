@@ -20,7 +20,7 @@ REQUIRE_HASH = getattr(settings, 'INTELLECTMONEY_REQUIRE_HASH', False)
 SEND_SECRETKEY = getattr(settings, 'INTELLECTMONEY_SEND_SECRETKEY', False)
 HOLD_MODE = getattr(settings, 'INTELLECTMONEY_HOLD_MODE', False)
 EXPIRE_DATE_OFFSET = getattr(settings, 'INTELLECTMONEY_EXPIRE_DATE_OFFSET',
-                             datetime.timedelta(days=7)
+                             datetime.timedelta(days=5)
                             )
 
 def get_url(name):

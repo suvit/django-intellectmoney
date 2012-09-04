@@ -12,7 +12,7 @@ Settings
 
 *  `INTELLECTMONEY_SHOPID`
 
-   ИД магазина в системе Интелектмани
+   ИД магазина в системе Интелектмани, должен быть типа int или str
 
 *  `INTELLECTMONEY_SECRETKEY`
 
@@ -40,6 +40,6 @@ Settings
 
 *  `INTELLECTMONEY_EXPIRE_DATE_OFFSET`
 
-   временой интервал действия режима OnHold, по умолчанию **7 дней**
+   временой интервал действия режима OnHold, по умолчанию **5 дней**
 
    не применяется, если `INTELLECTMONEY_HOLD_MODE` ложь

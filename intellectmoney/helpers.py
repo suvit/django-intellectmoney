@@ -14,13 +14,13 @@ def getHashOnReceiveResult(data):
     serviceName = data.get('serviceName', '')
     eshopId = data.get('eshopId', '')
     orderId = data.get('orderId', '')
-    eshopAccount = data.get('eshopAccount')
+    eshopAccount = data.get('eshopAccount', '')
     recipientAmount = data.get('recipientAmount', '')
     recipientCurrency = data.get('recipientCurrency', '')
     paymentStatus = data.get('paymentStatus', '')
     userName = data.get('userName', '')
     userEmail = data.get('userEmail', '')
-    paymentData = data.get('paymentData')
+    paymentData = data.get('paymentData', '')
     key = '%s::%s::%s::%s::%s::%s::%s::%s::%s::%s::%s' % (
          eshopId, orderId, serviceName, eshopAccount, recipientAmount,
          recipientCurrency, paymentStatus, userName, userEmail, paymentData,
