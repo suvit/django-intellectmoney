@@ -85,15 +85,17 @@ class IntellectMoneyForm(_BasePaymentForm):
 
     def __init__(self, *args, **kwargs):
         initial = kwargs.setdefault('initial', {})
-        if settings.REQUIRE_HASH:
-            initial['hash'] = getHashOnRequest(initial)
-        if settings.HOLD_MODE:
-            exp_date = datetime.datetime.now() + settings.EXPIRE_DATE_OFFSET
-            initial['expireDate'] = exp_date
 
         if settings.DEBUG:
             # in debug mode only support 'inner' method
             initial['preference'] = self.PREFERENCE_CHOICES[0][0]
+
+        if settings.HOLD_MODE:
+            exp_date = datetime.datetime.now() + settings.EXPIRE_DATE_OFFSET
+            initial['expireDate'] = exp_date
+
+        if settings.REQUIRE_HASH:
+            initial['hash'] = getHashOnRequest(initial)
 
         super(IntellectMoneyForm, self).__init__(*args, **kwargs)
 
