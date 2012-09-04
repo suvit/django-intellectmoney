@@ -8,52 +8,48 @@ def checkHashOnReceiveResult(data):
     hash = getHashOnReceiveResult(data)
     return hash == data.get('hash')
 
+def getHashOnKeys(data, *keys, **kwargs):
+    secretKey = settings.SECRETKEY
+
+    key = u'::'.join(unicode(data.get(key, '')) for key in keys)
+    key = u'%s::%s' % (key, secretKey)
+
+    encoding = kwargs.get('encoding', 'utf8')
+    key = key.encode(encoding)
+
+    return hashlib.md5(key).hexdigest()
+
 
 def getHashOnReceiveResult(data):
-    secretKey = settings.SECRETKEY
-    eshopId = data.get('eshopId', '')
-    orderId = data.get('orderId', '')
-    serviceName = data.get('serviceName', '')
-    eshopAccount = data.get('eshopAccount', '')
-    recipientAmount = data.get('recipientAmount', '')
-    recipientCurrency = data.get('recipientCurrency', '')
-    paymentStatus = data.get('paymentStatus', '')
-    userName = data.get('userName', '')
-    userEmail = data.get('userEmail', '')
-    paymentData = data.get('paymentData', '')
-    key = u'%s::%s::%s::%s::%s::%s::%s::%s::%s::%s::%s' % (
-         eshopId, orderId, serviceName, eshopAccount, recipientAmount,
-         recipientCurrency, paymentStatus, userName, userEmail, paymentData,
-         secretKey,
-    )
-    key = key.encode('utf8')
-    hash = hashlib.md5(key).hexdigest()
-    return hash
+    return getHashOnKeys(data,
+                         'eshopId',
+                         'orderId',
+                         'serviceName',
+                         'eshopAccount',
+                         'recipientAmount',
+                         'recipientCurrency',
+                         'paymentStatus',
+                         'userName',
+                         'userEmail',
+                         'paymentData',
+                        )
 
 
 def getHashOnRequest(data):
-    secretKey = settings.SECRETKEY
-    eshopId = data.get('eshopId', '')
-    orderId = data.get('orderId', '')
-    serviceName = data.get('serviceName', '')
-    purchaseAmount = data.get('recipientAmount', '')
-    currency = data.get('recipientCurrency', '')
-    key = u'%s::%s::%s::%s::%s::%s' % (
-         eshopId, orderId, serviceName, purchaseAmount, currency, secretKey,
-    )
-    key = key.encode('cp1251')
-    hash = hashlib.md5(key).hexdigest()
-    return hash
+    return getHashOnKeys(data,
+                         'eshopId',
+                         'orderId',
+                         'serviceName',
+                         'recipientAmount',
+                         'recipientCurrency',
+                         encoding='cp1251'
+                        )
 
 
 def getHashOnHold(data):
-    secretKey = settings.SECRETKEY
-    eshopId = data.get('eshopId', '')
-    orderId = data.get('orderId', '')
-    action = data.get('action', '')
-    key = u'%s::%s::%s::%s' % (
-         eshopId, orderId, action, secretKey,
-    )
-    key = key.encode('utf8')
-    hash = hashlib.md5(key).hexdigest()
-    return hash
+    return getHashOnKeys(data,
+                         'eshopId',
+                         'orderId',
+                         'action',
+                         encoding='cp1251'
+                        )

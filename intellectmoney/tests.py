@@ -60,8 +60,10 @@ class IntellectMoneyTest(test.TestCase):
             'orderId': 15, 'successUrl': '/dsdsd/', 'failUrl': '/dsdsda/',
             'eshopId': settings.SHOPID
         }
+        if settings.REQUIRE_HASH:
+            data['hash'] = getHashOnRequest(data)
+
         form = IntellectMoneyForm(data)
-        form.is_valid()
         self.assertTrue(form.is_valid())
 
     def testResultBadIp(self):
