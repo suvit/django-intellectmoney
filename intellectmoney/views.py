@@ -17,6 +17,9 @@ from intellectmoney.signals import result_received
 @csrf_exempt
 @require_POST
 def receive_result(request):
+
+    request.encoding = 'cp1251'  # explicitly set encoding
+
     ip = request.META['REMOTE_ADDR']
     preffix = 'IntellectMoney: '
     info = request.POST
