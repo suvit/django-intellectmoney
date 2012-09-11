@@ -4,7 +4,9 @@ import datetime
 from django import forms
 
 from intellectmoney import settings
-from intellectmoney.helpers import checkHashOnReceiveResult, getHashOnRequest
+from intellectmoney.helpers import (checkHashOnReceiveResult,
+                                    checkHashOnHold,
+                                    getHashOnRequest)
 
 
 class _BaseForm(forms.Form):
@@ -150,3 +152,12 @@ class AcceptingForm(_BaseForm):
 
     action = forms.ChoiceField(choices=ACTION_CHOICES)
     secretKey = forms.CharField()
+
+    clean_secretKey = ResultUrlForm.clean_secretKey.im_func
+
+    def clean(self):
+        data = self.cleaned_data
+        if not settings.SEND_SECRETKEY:
+            if not checkHashOnHoldResult(data):
+                raise forms.ValidationError(u'Неверный hash')
+        return data

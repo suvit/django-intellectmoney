@@ -8,6 +8,12 @@ def checkHashOnReceiveResult(data):
     hash = getHashOnReceiveResult(data)
     return hash == data.get('hash')
 
+
+def checkHashOnHold(data):
+    hash = getHashOnHold(data)
+    return hash == data.get('hash')
+
+
 def getHashOnKeys(data, *keys, **kwargs):
     secretKey = settings.SECRETKEY
 
@@ -32,6 +38,7 @@ def getHashOnReceiveResult(data):
                          'userName',
                          'userEmail',
                          'paymentData',
+                         encoding='cp1251'
                         )
 
 
