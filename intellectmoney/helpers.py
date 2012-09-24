@@ -58,5 +58,5 @@ def getHashOnHold(data):
                          'eshopId',
                          'orderId',
                          'action',
-                         encoding='cp1251'
+                         #encoding='cp1251'
                         )

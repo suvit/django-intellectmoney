@@ -6,7 +6,8 @@ from django import forms
 from intellectmoney import settings
 from intellectmoney.helpers import (checkHashOnReceiveResult,
                                     checkHashOnHold,
-                                    getHashOnRequest)
+                                    getHashOnRequest,
+                                    getHashOnHold)
 
 
 class _BaseForm(forms.Form):
@@ -97,10 +98,13 @@ class IntellectMoneyForm(_BasePaymentForm):
             initial['expireDate'] = exp_date
 
         if settings.REQUIRE_HASH:
+            # update some initial values
+            for fname in 'eshopId', 'recipientCurrency':
+                initial[fname] = self.base_fields[fname].initial
+
             initial['hash'] = getHashOnRequest(initial)
 
         super(IntellectMoneyForm, self).__init__(*args, **kwargs)
-
 
 class ResultUrlForm(_BasePaymentForm):
 
@@ -131,7 +135,7 @@ class ResultUrlForm(_BasePaymentForm):
     def clean_secretKey(self):
         secretKey = self.cleaned_data['secretKey']
         if settings.SEND_SECRETKEY:
-            if secretKey != settings.SEND_SECRETKEY:
+            if secretKey != settings.SECRETKEY:
                 raise forms.ValidationError(u'Неверное значение')
         return secretKey
 
@@ -151,13 +155,32 @@ class AcceptingForm(_BaseForm):
     ]
 
     action = forms.ChoiceField(choices=ACTION_CHOICES)
-    secretKey = forms.CharField()
+
+    hash = forms.CharField(required=True)
+    secretKey = forms.CharField(required=True, initial=settings.SECRETKEY)
+
+
+    def __init__(self, *args, **kwargs):
+        initial = kwargs.setdefault('initial', {})
+
+        for fname in 'eshopId',:
+            initial[fname] = self.base_fields[fname].initial
+
+        initial['hash'] = getHashOnHold(initial)
+
+        super(AcceptingForm, self).__init__(*args, **kwargs)
+
 
     clean_secretKey = ResultUrlForm.clean_secretKey.im_func
 
     def clean(self):
         data = self.cleaned_data
-        if not settings.SEND_SECRETKEY:
-            if not checkHashOnHoldResult(data):
-                raise forms.ValidationError(u'Неверный hash')
+        if not checkHashOnHoldResult(data):
+            raise forms.ValidationError(u'Неверный hash')
+        return data
+
+    def serialize(self):
+        data = dict()
+        for field_name in self.fields:
+            data[field_name] = self[field_name].value()
         return data
