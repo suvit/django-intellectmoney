@@ -106,6 +106,7 @@ class IntellectMoneyForm(_BasePaymentForm):
 
         super(IntellectMoneyForm, self).__init__(*args, **kwargs)
 
+
 class ResultUrlForm(_BasePaymentForm):
 
     STATUS_CHOICES = [
@@ -170,14 +171,17 @@ class AcceptingForm(_BaseForm):
 
         super(AcceptingForm, self).__init__(*args, **kwargs)
 
-
-    clean_secretKey = ResultUrlForm.clean_secretKey.im_func
-
     def clean(self):
         data = self.cleaned_data
-        if not checkHashOnHoldResult(data):
+        if not checkHashOnHold(data):
             raise forms.ValidationError(u'Неверный hash')
         return data
+
+    def clean_secretKey(self):
+        secretKey = self.cleaned_data['secretKey']
+        if secretKey != settings.SECRETKEY:
+            raise forms.ValidationError(u'Неверное значение')
+        return secretKey
 
     def serialize(self):
         data = dict()
